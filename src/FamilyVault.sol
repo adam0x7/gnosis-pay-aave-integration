@@ -10,7 +10,8 @@ contract FamilyVault is ERC4626 {
     IERC20 wstETH = IERC20(0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6);
     address owners; //safe address
 
-    address[] gpAccounts;
+    address[] public gpAccounts; //family accounts
+    mapping(address => uint256) public accountsToAllowances;
 
 
     constructor(address _owner,
