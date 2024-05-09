@@ -8,11 +8,17 @@ import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 contract FamilyVault is ERC4626 {
 
     IERC20 wstETH = IERC20(0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6);
-    address owner; //safe address
+    address owners; //safe address
+
+    address[] gpAccounts;
 
 
-    constructor(address _owner) ERC4626(wstETH) ERC20("wstETH Family Shares", "wFS"){
+    constructor(address _owner,
+                address[] _gpAccounts) ERC4626(wstETH) ERC20("wstETH Family Shares", "wFS"){
         owner = _owner;
+        for(i = 0; i < gpAccounts.length; i++) {
+            gpAccounts.push(_gpAccounts[i]);
+        }
     }
 
     modifier onlyOwner() {
