@@ -8,6 +8,12 @@ import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 contract FamilyVault is ERC4626 {
 
     IERC20 wstETH = IERC20(0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6);
+    IERC20 eure = IERC20(0xcB444e90D8198415266c6a2724b7900fb12FC56E);
+
+    uint256 currPayPeriod;
+
+
+    uint256 public constant TWO_WEEKS = 1209600;
     address owners; //safe address
     uint256 riskTolerance;
 
@@ -30,20 +36,25 @@ contract FamilyVault is ERC4626 {
         _;
     }
 
-    function setAllowance(address calldata account, uint256 allowances) public {
-
+    function setAllowance(address calldata account, uint256 allowance) public {
+        require(allowance > 0);
+        accountsToAllowances[account] = allowance;
     }
 
-    function disperseAllowance() public {
+    function disperseAllowance(uint256 lastTimeStamp, address account) public {
+        require(isTwoWeeksPassed(lastTimeStamp));
+        eure.transferFrom(address(this), account, accountsToAllowances[address]);
+    }
 
+    function isTwoWeeksPassed(uint256 lastTimestamp) public view returns (bool) {
+        return (block.timestamp >= pastTimestamp + TWO_WEEKS);
     }
 
     function getLoan() public {
-
+        currPayPeriod = block.timestamp;
     }
 
     //yield functions
-
     function swapEUReForDAI() {
         //happens with curve
     }
