@@ -58,7 +58,7 @@ contract FamilyVault is ERC4626 {
 
     function getLoan() public {
         currPayPeriod = block.timestamp;
-
+        aavePool.supply(address(wstEth), wstETH.balanceOf(address(this)) - 1, address(this), 0 );
     }
 
     //yield functions
