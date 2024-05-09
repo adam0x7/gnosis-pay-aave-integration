@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import "solmate/src/tokens/ERC4626.sol";
-import {ERC20} from "solmate/src/tokens/ERC20.sol";
+import {ERC4626} from "solmate/tokens/ERC4626.sol";
+import {ERC20} from "solmate/tokens/ERC20.sol";
 
 contract FamilyVault is ERC4626 {
 
@@ -16,6 +16,6 @@ contract FamilyVault is ERC4626 {
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function.");
-        _; 
+        _;
     }
 }
