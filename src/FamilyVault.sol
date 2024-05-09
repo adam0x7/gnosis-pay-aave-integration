@@ -35,7 +35,6 @@ contract FamilyVault is ERC4626 {
         }
         riskTolerance = _riskTolerance;
         poolProvider = IPoolAddressesProvider(_aaveMarketId, _aaveOwner);
-        aavePool = IPool(poolProvider);
     }
 
     modifier onlyOwner() {
@@ -50,7 +49,7 @@ contract FamilyVault is ERC4626 {
 
     function disperseAllowance(uint256 lastTimeStamp, address account) public {
         require(isTwoWeeksPassed(lastTimeStamp));
-        eure.transferFrom(address(this), account, accountsToAllowances[address]);
+        eure.transferFrom(address(this), account, accountsToAllowances[account]); // needs to be refactored to delay module for the safe account
     }
 
     function isTwoWeeksPassed(uint256 lastTimestamp) public view returns (bool) {
