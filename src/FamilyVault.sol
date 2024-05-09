@@ -26,4 +26,16 @@ contract FamilyVault is ERC4626 {
         require(msg.sender == owner, "Only the owner can call this function.");
         _;
     }
+
+    function setAllowance(address calldata account, uint256 allowances) public {
+
+    }
+
+    function disperseAllowance() public {
+
+    }
+
+    function getLoan() public {
+
+    }
 }
