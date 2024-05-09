@@ -56,7 +56,7 @@ contract FamilyVault is ERC4626 {
         return (block.timestamp >= pastTimestamp + TWO_WEEKS);
     }
 
-    function getLoan() public {
+    function getLoan() internal onlyOwner {
         currPayPeriod = block.timestamp;
         aavePool.supply(address(wstEth), wstETH.balanceOf(address(this)) - 1, address(this), 0);
         //how to calculate how much to borrow based off of weth??
