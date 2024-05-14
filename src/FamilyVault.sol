@@ -111,6 +111,8 @@ contract FamilyVault is ERC4626 {
         return success;
     }
 
+    //TODO add loan repayment based on eth price going above a certain price. set limit order to cover the loan
+
     // yield functions
     // function swapEUReForDAI() {
     //     // happens with curve
