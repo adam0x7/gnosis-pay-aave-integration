@@ -23,6 +23,7 @@ contract FamilyVault is ERC4626 {
 
     IERC20 wstETH = IERC20(0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6);
     IERC20 eure = IERC20(0xcB444e90D8198415266c6a2724b7900fb12FC56E);
+
     IPoolAddressesProvider poolProvider;
     IPool aavePool;
     uint256 currPayPeriod;
