@@ -7,6 +7,11 @@ import {IPool} from "aave-v3-core/contracts/interfaces/IPool.sol";
 
 contract FamilyVault is Test {
 
+    //testing here
+    // testing supplying some eth to aave
+    //taking a loan in usdc on a stable rate
+    //simulate sending out the different allowances to family members
+
     FamilyVault vault;
     IPool pool;
 
@@ -19,6 +24,18 @@ contract FamilyVault is Test {
     address poolOwner;
 
    function setUp() {
-       
+
    }
+
+    function testSupply() public {
+
+    }
+
+    function testLoanTaking() {
+
+    }
+
+    function testAllowanceDisbursement() {
+        
+    }
 }
