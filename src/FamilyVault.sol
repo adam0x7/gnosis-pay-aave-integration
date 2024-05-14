@@ -47,7 +47,7 @@ contract FamilyVault is ERC4626 {
         accountsToAllowances[account] = allowance;
     }
 
-    function disperseAllowance(uint256 lastTimeStamp, address account) public {
+    function disperseAllowance(uint256 lastTimeStamp, address account) public onlyOwner {
         require(isTwoWeeksPassed(lastTimeStamp));
         eure.transferFrom(address(this), account, accountsToAllowances[account]); // needs to be refactored to delay module for the safe account
     }
