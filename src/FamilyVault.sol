@@ -6,7 +6,6 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 import {IPool} from "aave-v3-core/contracts/interfaces/IPool.sol";
 import {IPoolAddressesProvider} from "aave-v3-core/contracts/interfaces/IPoolAddressesProvider.sol";
-import {Delay} from "zodiac-modifier-delay/Delay.sol";
 
 contract FamilyVault is ERC4626 {
 
@@ -27,7 +26,6 @@ contract FamilyVault is ERC4626 {
     IPoolAddressesProvider poolProvider;
     IPool aavePool;
     uint256 currPayPeriod;
-    mapping (address => Delay) addressesToModifiers;
 
     uint256 public constant TWO_WEEKS = 1209600;
     address owner; // Safe address
@@ -40,14 +38,12 @@ contract FamilyVault is ERC4626 {
      * @param _owner The address of the owner (safe address).
      * @param _gpAccounts An array of family account addresses.
      * @param _riskTolerance The risk tolerance level.
-     * @param _aaveMarketId The Aave market ID.
      * @param _aaveOwner The Aave owner address.
      */
     constructor(
         address _owner,
         address[] memory _gpAccounts,
         uint256 _riskTolerance,
-        uint256 _aaveMarketId,
         address _aaveOwner
     ) ERC4626(wstETH) ERC20("wstETH Family Shares", "wFS") {
         owner = _owner;
@@ -55,7 +51,7 @@ contract FamilyVault is ERC4626 {
             gpAccounts.push(_gpAccounts[i]);
         }
         riskTolerance = _riskTolerance;
-        poolProvider = IPoolAddressesProvider(_aaveMarketId, _aaveOwner);
+        poolProvider = IPoolAddressesProvider(_aaveOwner);
     }
 
     modifier onlyOwner() {
