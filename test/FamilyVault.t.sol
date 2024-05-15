@@ -24,6 +24,13 @@ contract FamilyVault is Test {
     address poolOwner;
 
    function setUp() {
+       //test on the fork??
+
+       //make sure to deal out to the necessary actors in the contract
+
+       //set up the aave stuff. the pool and the provider
+
+       //setup the vault
 
    }
 
@@ -36,6 +43,6 @@ contract FamilyVault is Test {
     }
 
     function testAllowanceDisbursement() {
-        
+
     }
 }
