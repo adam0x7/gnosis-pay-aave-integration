@@ -21,8 +21,8 @@ contract FamilyVault is ERC4626 {
     event AllowanceDispersed(address indexed account, uint256 amount);
     event LoanTaken(uint256 amount);
 
-    IERC20 wstETH = IERC20(0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6);
-    IERC20 eure = IERC20(0xcB444e90D8198415266c6a2724b7900fb12FC56E);
+    IERC20 public wstETH = IERC20(0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6);
+    IERC20 public eure = IERC20(0xcB444e90D8198415266c6a2724b7900fb12FC56E);
 
     IPoolAddressesProvider poolProvider;
     IPool aavePool;
@@ -97,9 +97,13 @@ contract FamilyVault is ERC4626 {
      * @notice Takes a loan from Aave using the wstETH collateral.
      * @return bool True if the loan was successfully taken, false otherwise.
      */
+
+    function supplyTokens(uint256 _amount) internal onlyOwner  {
+        aavePool.supply(address(wstETH), wstETH.balanceOf(address(this)) - _amount, address(this), 0);
+    }
     function getLoan() internal onlyOwner returns (bool) {
         currPayPeriod = block.timestamp;
-        aavePool.supply(address(wstETH), wstETH.balanceOf(address(this)) - 1, address(this), 0);
+
 
         // How to calculate how much to borrow based off of wstETH??
         uint256 balanceBefore = eure.balanceOf(address(this));
