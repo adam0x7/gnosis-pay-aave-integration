@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "forge-std/src/Test.sol";t
 import {FamilyVault} from "../src/FamilyVault.sol";
 import {IPool} from "aave-v3-core/contracts/interfaces/IPool.sol";
+import {IPoolAddressesProvider} from "aave-v3-core/contracts/interfaces/IPoolAddressesProvider.sol";
 
 contract FamilyVault is Test {
 
@@ -14,6 +15,8 @@ contract FamilyVault is Test {
 
     FamilyVault vault;
     IPool pool;
+    IPoolAddressesProvider addressProvider = IPoolAddressesProvider(0x36616cf17557639614c1cdDb356b1B83fc0B2132);
+
 
     address owner = address(0x1);
 
@@ -23,10 +26,11 @@ contract FamilyVault is Test {
 
     address poolOwner;
 
-   function setUp() {
-       //test on the fork??
 
+
+   function setUp() {
        //make sure to deal out to the necessary actors in the contract
+       vault = FamilyVault(address(this), accounts, 5, pool);
 
        //set up the aave stuff. the pool and the provider
 

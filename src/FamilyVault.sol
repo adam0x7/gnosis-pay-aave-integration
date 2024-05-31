@@ -45,14 +45,14 @@ contract FamilyVault is ERC4626 {
         address _owner,
         address[] memory _gpAccounts,
         uint256 _riskTolerance,
-        address _aaveOwner
+        address _pool
     ) ERC4626(wstETH) ERC20("wstETH Family Shares", "wFS") {
         owner = _owner;
         for (uint256 i = 0; i < _gpAccounts.length; i++) {
             gpAccounts.push(_gpAccounts[i]);
         }
         riskTolerance = _riskTolerance;
-        poolProvider = IPoolAddressesProvider(_aaveOwner);
+        aavePool = IPool(_pool);
     }
 
     modifier onlyOwner() {
