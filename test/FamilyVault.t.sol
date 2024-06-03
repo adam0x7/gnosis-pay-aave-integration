@@ -111,7 +111,27 @@ contract FamilyVault is Test {
         assertGt(IERC20(vault.eure()).balanceOf(address(vault)), 0, "Should have EURE tokens after borrowing");
     }
 
-    function testAllowanceDisbursement() {
+    function testAllowanceDisbursement() public {
+        // Arrange
+        uint256 allowanceAmount = 1000 ether; // Set a test allowance amount
+        address recipient = gpAccounts[0]; // Use the first account in gpAccounts as the recipient
+        vault.setAllowance(recipient, allowanceAmount); // Set the initial allowance
 
+        // Simulate taking out a loan and ensuring there is enough EURE in the vault
+        vault.getLoan();
+        assertGt(IERC20(vault.eure()).balanceOf(address(vault)), allowanceAmount, "Vault should have enough EURE after the loan");
+
+        // Act & Assert: First disbursement
+        uint256 lastTimeStamp = block.timestamp; // Record the timestamp for the first disbursement
+        vault.disperseAllowance(lastTimeStamp, recipient);
+        assertEq(IERC20(vault.eure()).balanceOf(recipient), allowanceAmount, "Recipient should receive the first allowance");
+
+        // Simulate time passing more than two weeks for the next disbursement
+        vm.warp(block.timestamp + 2 weeks + 1); // Move time forward by two weeks and one second
+
+        // Act & Assert: Second disbursement
+        vault.disperseAllowance(lastTimeStamp, recipient);
+        assertEq(IERC20(vault.eure()).balanceOf(recipient), 2 * allowanceAmount, "Recipient should receive the second allowance");
     }
+
 }
