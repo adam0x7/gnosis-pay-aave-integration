@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import "forge-std/src/Test.sol";t
+import {Test} from "forge-std/Test.sol";
 import {FamilyVault} from "../src/FamilyVault.sol";
 import {IPool} from "aave-v3-core/contracts/interfaces/IPool.sol";
 import {IPoolAddressesProvider} from "aave-v3-core/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 
-contract FamilyVault is Test {
+contract FamilyVaultTest is Test {
 
     //testing here
     // testing supplying some eth to aave
@@ -30,9 +30,8 @@ contract FamilyVault is Test {
 
 
 
-   function setUp() {
+   function setUp() public {
        vault = new FamilyVault(address(this), accounts, 5, pool);
-
    }
 
     function testSupply() public {
