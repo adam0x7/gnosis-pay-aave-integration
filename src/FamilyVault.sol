@@ -103,8 +103,6 @@ contract FamilyVault is ERC4626 {
     }
     function getLoan() internal onlyOwner returns (bool) {
         currPayPeriod = block.timestamp;
-
-
         // How to calculate how much to borrow based off of wstETH??
         uint256 balanceBefore = eure.balanceOf(address(this));
         aavePool.borrow(address(eure), 10, 1, 0, address(this));

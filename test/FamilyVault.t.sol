@@ -98,8 +98,17 @@ contract FamilyVault is Test {
     }
 
 
-    function testLoanTaking() {
+    function testGetLoan() public {
+        // Arrange: Prepare any state required before invoking the method
+        // Assuming we have already supplied the tokens in the setup or another test
+        vault.supplyTokens(50 ether);
 
+        // Act: Call the method we're testing
+        bool success = vault.getLoan();
+
+        // Assert: Verify the outcomes of the function call
+        assertTrue(success, "Loan taking should succeed");
+        assertGt(IERC20(vault.eure()).balanceOf(address(vault)), 0, "Should have EURE tokens after borrowing");
     }
 
     function testAllowanceDisbursement() {
