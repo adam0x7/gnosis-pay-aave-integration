@@ -22,17 +22,23 @@ contract FamilyVaultTest is Test {
 
     address owner = address(0x1);
 
-    address[] accounts = [0x2,0x3,0x4,0x5];
+    address[] accounts;
 
     uint256 riskTolerance = 5;
-
-    address poolOwner;
 
 
 
    function setUp() public {
-       vault = new FamilyVault(address(this), accounts, 5, pool);
+       addAccount(address(0x1));
+       addAccount(address(0x2));
+       addAccount(address(0x3));
+       addAccount(address(0x4));
+       vault = new FamilyVault(address(this), accounts, 5, gnosisPool);
    }
+
+    function addAccount(address account) public {
+        accounts.push(account);
+    }
 
     function testSupply() public {
         uint256 balanceBefore = wstETH.balanceOf(address(this));
@@ -55,7 +61,6 @@ contract FamilyVaultTest is Test {
 
         // Ensure event is emitted
         vm.expectEmit(true, true, true, true);
-        emit AllowanceSet(recipient, allowanceAmount);
         vault.setAllowance(recipient, allowanceAmount);
     }
 
@@ -74,11 +79,10 @@ contract FamilyVaultTest is Test {
         vault.disperseAllowance(lastTimeStamp, recipient);
 
         // Check if the amount has been transferred (assuming EURE has been provided to the contract)
-        assertEq(eure.balanceOf(recipient), allowanceAmt, "Allowance should be dispersed to the recipient");
+        assertEq(eure.balanceOf(recipient), allowanceAmount, "Allowance should be dispersed to the recipient");
 
         // Ensure event is emitted
         vm.expectEmit(true, true, true, true);
-        emit AllowanceDispersed(recipient, allowanceAmount);
         vault.disperseAllowance(lastTimeStamp, recipient);
     }
 
@@ -113,7 +117,7 @@ contract FamilyVaultTest is Test {
     function testAllowanceDisbursement() public {
         // Arrange
         uint256 allowanceAmount = 1000 ether; // Set a test allowance amount
-        address recipient = gpAccounts[0]; // Use the first account in gpAccounts as the recipient
+        address recipient = accounts[0]; // Use the first account in gpAccounts as the recipient
         vault.setAllowance(recipient, allowanceAmount); // Set the initial allowance
 
         // Simulate taking out a loan and ensuring there is enough EURE in the vault

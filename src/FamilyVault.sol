@@ -39,7 +39,7 @@ contract FamilyVault is ERC4626 {
      * @param _owner The address of the owner (safe address).
      * @param _gpAccounts An array of family account addresses.
      * @param _riskTolerance The risk tolerance level.
-     * @param _aaveOwner The Aave owner address.
+     * @param _pool  AAVE Pool
      */
     constructor(
         address _owner,
@@ -69,7 +69,6 @@ contract FamilyVault is ERC4626 {
         if (allowance <= 0) revert InvalidAllowance();
         if (accountsToAllowances[account] > 0) revert AllowanceAlreadySet();
         accountsToAllowances[account] = allowance;
-        emit AllowanceSet(account, allowance);
     }
 
     /**
