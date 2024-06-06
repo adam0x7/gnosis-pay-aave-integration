@@ -96,15 +96,21 @@ contract FamilyVault is ERC4626 {
      * @notice Takes a loan from Aave using the wstETH collateral.
      */
 
-    function supplyTokens(uint256 _amount) internal onlyOwner  {
-        aavePool.supply(address(wstETH), wstETH.balanceOf(address(this)) - _amount, address(this), 0);
+    function supplyTokensAndSetCollateral(uint256 _amount) public onlyOwner  {
+        aavePool.supply(address(wstETH), _amount, address(this), 0);
+        aavePool.setUserUseReserveAsCollateral(address(wstETH), true);
     }
 
-    function getLoan() internal onlyOwner returns (bool) {
+    function checkBorrowConditions(address asset) public view returns (uint256 collateral, uint256 healthFactor, uint256 availableBorrow) {
+        (collateral, , ,availableBorrow , , healthFactor) = aavePool.getUserAccountData(address(this));
+        return (collateral, healthFactor, availableBorrow);
+    }
+
+    function getLoan(uint256 _borrowAmount) public onlyOwner returns (bool) {
         currPayPeriod = block.timestamp;
         // How to calculate how much to borrow based off of wstETH??
         uint256 balanceBefore = eure.balanceOf(address(this));
-        aavePool.borrow(address(eure), 10, 1, 0, address(this));
+        aavePool.borrow(address(eure), _borrowAmount, 1, 0, address(this));
 
         bool success = eure.balanceOf(address(this)) > balanceBefore;
         if (!success) revert LoanFailed();

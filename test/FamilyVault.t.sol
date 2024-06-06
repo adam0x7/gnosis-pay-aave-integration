@@ -37,6 +37,11 @@ contract FamilyVaultTest is Test {
        addAccount(address(0x3));
        addAccount(address(0x4));
        vault = new FamilyVault(address(this), accounts, 5, gnosisPool);
+
+       deal(address(wstETH), address(this), 100);
+
+       wstETH.approve(address(vault), 90);
+       IERC4626(address(vault)).deposit(90, address(this));
    }
 
     function addAccount(address account) public {
@@ -108,18 +113,27 @@ contract FamilyVaultTest is Test {
 //    }
 
 //
-//    function testGetLoan() public {
-//        // Arrange: Prepare any state required before invoking the method
-//        // Assuming we have already supplied the tokens in the setup or another test
-//        vault.supplyTokens(50 ether);
-//
-//        // Act: Call the method we're testing
-//        bool success = vault.getLoan();
-//
-//        // Assert: Verify the outcomes of the function call
-//        assertTrue(success, "Loan taking should succeed");
-//        assertGt(IERC20(vault.eure()).balanceOf(address(vault)), 0, "Should have EURE tokens after borrowing");
-//    }
+    function testGetLoan() public {
+        uint256 supplyAmount = 15;
+        vm.deal(address(vault), 1 ether);
+        vm.prank(address(vault));
+        wstETH.approve(gnosisPool, supplyAmount);
+
+        vault.supplyTokensAndSetCollateral(supplyAmount);
+
+        vm.prank(address(vault));
+        (uint256 collateral, uint256 factor, uint256 borrow) = vault.checkBorrowConditions(address(wstETH));
+        console.log("COLLAT", collateral);
+        console.log("FACTOR", factor);
+        console.log("BORROW", borrow);
+
+        uint256 borrowAmount = 1;
+        bool success = vault.getLoan(borrowAmount);
+
+        // Assert: Verify the outcomes of the function call
+        assertTrue(success, "Loan taking should succeed");
+        assertGt(IERC20(vault.eure()).balanceOf(address(vault)), 0, "Should have EURE tokens after borrowing");
+    }
 //
 //    function testAllowanceDisbursement() public {
 //        // Arrange
