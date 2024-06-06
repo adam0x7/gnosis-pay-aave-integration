@@ -94,12 +94,12 @@ contract FamilyVault is ERC4626 {
 
     /**
      * @notice Takes a loan from Aave using the wstETH collateral.
-     * @return bool True if the loan was successfully taken, false otherwise.
      */
 
     function supplyTokens(uint256 _amount) internal onlyOwner  {
         aavePool.supply(address(wstETH), wstETH.balanceOf(address(this)) - _amount, address(this), 0);
     }
+
     function getLoan() internal onlyOwner returns (bool) {
         currPayPeriod = block.timestamp;
         // How to calculate how much to borrow based off of wstETH??
