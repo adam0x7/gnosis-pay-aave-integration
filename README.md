@@ -1,66 +1,16 @@
-## Foundry
+# FamilyVault Project
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+The FamilyVault project is a smart contract system designed for families with significant Ethereum holdings who wish to leverage their assets to obtain loans in EURe stable coins on the Gnosis Chain. These funds can be used with Gnosis Pay cards for everyday transactions, providing liquidity without selling the underlying assets.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## About Gnosis Pay
 
-## Documentation
+Gnosis Pay is a payment platform that uses blockchain technology to facilitate secure and transparent transactions. It is particularly useful for users within the Gnosis ecosystem, allowing for seamless spending of cryptocurrency in a stable and user-friendly manner.
 
-https://book.getfoundry.sh/
+## Features
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- **Vault Creation:** Users can create a vault to securely manage their family's Ethereum assets.
+- **Automated Borrowing:** Integrates with Aave on Gnosis Chain to automate borrowing against Ethereum collateral to receive EURe stable coins.
+- **Allowance Management:** Automates the disbursement of allowances to family members, which can be used directly through Gnosis Pay cards.
+- **Asset Management:** Supports balance checks, approvals, and other asset management functionalities.

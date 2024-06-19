@@ -12,11 +12,6 @@ import "forge-std/console.sol";
 
 contract FamilyVaultTest is Test {
 
-    //testing here
-    // testing supplying some eth to aave
-    //taking a loan in usdc on a stable rate
-    //simulate sending out the different allowances to family members
-
     FamilyVault vault;
     address gnosisPool = 0xb50201558B00496A145fE76f7424749556E326D8;
 
